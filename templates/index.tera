@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>test page</title>
+</head>
+<body>
+<h1>Hi {{ name }}</h1>
+{% for s in items %}
+  <li>{{ s }}</li>
+{% endfor %}
+</body>
+</html>
