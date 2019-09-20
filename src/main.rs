@@ -4,10 +4,12 @@
 #[macro_use] extern crate serde_derive;
 extern crate serde_json;
 
+use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::fs::File;
 use rocket::Request;
-use rocket::response::Redirect;
+use rocket::request::Form;
+use rocket::response::{Flash, Redirect};
 use rocket_contrib::templates::Template;
 use rocket_contrib::json::Json;
 
@@ -37,7 +39,6 @@ struct Event {
 
 impl Event {
     fn to_json(&self) -> Json<Event> {
-       //struct to Json
         Json(Event {
             id: self.id,
             name: self.name.to_string(),
@@ -57,11 +58,11 @@ impl Event {
     }
 }
 
-
-//fn read_db(id: i32, event_list: &mut Vec<Event>) {
-fn read_db() -> Event {
-    // jsonからデータを取得
-    let mut file = File::open("db/sample.json").expect("file not found");
+// jsonファイルからデータを読み込んで構造体に変換して返す
+// 引数　: &str型(ファイル名)
+// 返り値: Event型
+fn read_db(filename: &str) -> Event {
+    let mut file = File::open(filename).expect("file not found");
     let mut data = String::new();
     file.read_to_string(&mut data).unwrap();
 
@@ -74,10 +75,62 @@ fn index() -> &'static str {
 }
 
 #[get("/list")]
-fn get_list() {
+fn get_list() -> Template {
     // jsonを読み込んでイベント一覧の表示
+    let event: Event = read_db("db/sample.json");
+
+    Template::render("list", &event)
 }
 
+#[get("/registration")]
+fn registration() -> Template {
+    let context = TemplateContext {
+        name: "Test".to_string(),
+        items: vec!["1", "2"]
+    };
+    Template::render("form", &context)
+}
+
+#[get("/registration_complete")]
+fn registration_complete() -> Template {
+    let context = TemplateContext {
+        name: "Test".to_string(),
+        items: vec!["1", "2"]
+    };
+    Template::render("registration_complete", &context)
+}
+
+
+
+#[derive(FromForm)]
+struct FormEvent {
+    name: String,
+    place: String,
+    time: String,
+    tr_type: String,
+    begin_place: String,
+    end_place: String,
+    begin_time: String,
+    hotel_place: String,
+    checkin: String
+}
+
+#[post("/store", data = "<form_event>")]
+/*fn store(form_event: Form<Form_event>) {
+}
+*/
+fn store(form_event: Form<FormEvent>) -> Flash<Redirect> {
+    let event = form_event.into_inner();
+    println!("{}", event.name);
+    // 例
+    // ----------ここから---------------
+    if event.name.is_empty() {
+        Flash::error(Redirect::to("/registration_complete"), "Description cannot be empty.")
+    } else {
+        Flash::error(Redirect::to("/registration_complete"), "Whoops! The server failed.")
+    }
+    // ----------ここまで---------------
+}
 // サンプルコード
 // ----------ここから---------------
 #[derive(Serialize)]
@@ -113,11 +166,10 @@ fn input_form() -> Template {
 
 fn rocket() -> rocket::Rocket {
     rocket::ignite()
-        .mount("/", routes![index, get, input_form])
+        .mount("/", routes![index, get_list, registration, store, registration_complete])
         .attach(Template::fairing())
 }
 
 fn main() {
-    read_db();
     rocket().launch();
 }

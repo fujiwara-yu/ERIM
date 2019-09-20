@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>test page</title>
+</head>
+<body>
+<form action="/store" method="post">
+<table>
+イベント
+<tr>
+    <td>イベント名:</td><td><input type="text" name="name" /></td>
+</tr>
+<tr>
+    <td>開催場所:</td><td><input type="text" name="place" /></td>
+</tr>
+<tr>
+    <td>開催日:</td><td><input type="date" name="time" /></td>
+</tr>
+</table>
+<br>
+<table>
+交通機関
+<tr>
+    <td>種類:</td>
+    <td>
+        <input type="radio" name="tr_type" value="train" />新幹線
+        <input type="radio" name="tr_type" value="bus" />バス
+        <input type="radio" name="tr_type" value="plane" />飛行機
+    </td>
+</tr>
+<tr>
+    <td>出発地点:</td><td><input type="text" name="begin_place" /></td>
+</tr>
+<tr>
+    <td>到着地点:</td><td><input type="text" name="end_place" /></td>
+</tr>
+<tr>
+    <td>出発時間:</td><td><input type="time" name="begin_time" /></td>
+</tr>
+</table>
+<br>
+<table>
+ホテル
+<tr>
+    <td>場所:</td><td><input type="text" name="hotel_place" /></td>
+</tr>
+<tr>
+    <td>チェックイン:</td><td><input type="time" name="checkin" /></td>
+</tr>
+</table>
+<input type="submit" />
+</form>
+</body>
+</html>
