@@ -4,6 +4,7 @@
 #[macro_use] extern crate serde_derive;
 extern crate serde_json;
 
+use std::fs;
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::fs::File;
@@ -12,6 +13,7 @@ use rocket::request::Form;
 use rocket::response::{Flash, Redirect};
 use rocket_contrib::templates::Template;
 use rocket_contrib::json::Json;
+use serde_json::json;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Transportation {
@@ -69,6 +71,17 @@ fn read_db(filename: &str) -> Event {
     serde_json::from_str(&data).unwrap()
 }
 
+fn get_tail_id() -> i32 {
+    // db以下のファイル名を取得
+    let paths = fs::read_dir("db/").unwrap();
+    let mut id: String;
+    for path in paths {
+        id = path.unwrap().path().display().to_string();
+    }
+//    let tail = id.chars().nth(7).unwrap() as i32 - 48;
+    1
+}
+
 #[get("/")]
 fn index() -> &'static str {
     "Hello, world!"
@@ -77,7 +90,9 @@ fn index() -> &'static str {
 #[get("/list")]
 fn get_list() -> Template {
     // jsonを読み込んでイベント一覧の表示
-    let event: Event = read_db("db/sample.json");
+    let id = get_tail_id();
+    let filename = "db/data".to_string() + &id.to_string() + ".json";
+    let event: Event = read_db(&filename);
 
     Template::render("list", &event)
 }
@@ -86,7 +101,6 @@ fn get_list() -> Template {
 fn registration() -> Template {
     let context = TemplateContext {
         name: "Test".to_string(),
-        items: vec!["1", "2"]
     };
     Template::render("form", &context)
 }
@@ -95,7 +109,6 @@ fn registration() -> Template {
 fn registration_complete() -> Template {
     let context = TemplateContext {
         name: "Test".to_string(),
-        items: vec!["1", "2"]
     };
     Template::render("registration_complete", &context)
 }
@@ -116,49 +129,51 @@ struct FormEvent {
 }
 
 #[post("/store", data = "<form_event>")]
-/*fn store(form_event: Form<Form_event>) {
-}
-*/
 fn store(form_event: Form<FormEvent>) -> Flash<Redirect> {
     let event = form_event.into_inner();
-    println!("{}", event.name);
-    // 例
-    // ----------ここから---------------
-    if event.name.is_empty() {
-        Flash::error(Redirect::to("/registration_complete"), "Description cannot be empty.")
-    } else {
-        Flash::error(Redirect::to("/registration_complete"), "Whoops! The server failed.")
+    // json形式で保存
+    let id: i32 = get_tail_id();
+    let write_json = json!({
+    "id": id,
+    "name": event.name,
+    "place": event.place,
+    "time": event.time,
+    "transportation": {
+        "tr_type": event.tr_type,
+        "begin_place": event.begin_place,
+        "end_place": event.end_place,
+        "time": event.begin_time
+    },
+    "hotel": {
+        "place": event.hotel_place,
+        "time": event.checkin
     }
-    // ----------ここまで---------------
+});
+    let filename = "db/data".to_string() + &id.to_string() + ".json";
+    let mut f = File::create(filename).unwrap();
+    writeln!(f, "{}", write_json);
+
+    Flash::success(Redirect::to("/registration_complete"), "OK")
 }
 // サンプルコード
 // ----------ここから---------------
 #[derive(Serialize)]
 struct TemplateContext {
     name: String,
-    items: Vec<&'static str>
 }
 
 #[get("/hello/<name>")]
 fn get(name: String) -> Template {
-    // DBから呼び出すようにする
-    let list = vec!["test1", "result1"];
-
     let context = TemplateContext {
         name: name,
-        items: list
     };
     Template::render("index", &context)
 }
 
 #[get("/input")]
 fn input_form() -> Template {
-    // DBから呼び出すようにする
-    let list = vec!["test1", "result1"];
-
     let context = TemplateContext {
         name: "a".to_string(),
-        items: list
     };
     Template::render("form", &context)
 }
