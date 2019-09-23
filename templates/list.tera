@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>test page</title>
+</head>
+<body>
+<table>
+イベント
+<tr>
+    <td>イベント名:</td><td>{{ name }}</td>
+</tr>
+<tr>
+    <td>開催場所:</td><td>{{ place }}</td>
+</tr>
+<tr>
+    <td>開催日:</td><td>{{ time }}</td>
+</tr>
+</table>
+<br>
+<table>
+交通機関
+<tr>
+    <td>種類:</td><td>{{ transportation.tr_type }}</td>
+</tr>
+<tr>
+    <td>出発地点:</td><td>{{ transportation.begin_place }}</td>
+</tr>
+<tr>
+    <td>到着地点:</td><td>{{ transportation.end_place }}</td>
+</tr>
+<tr>
+    <td>出発時間:</td><td>{{ transportation.time }}</td>
+</tr>
+</table>
+<br>
+<table>
+ホテル
+<tr>
+    <td>場所:</td><td>{{ hotel.place }}</td>
+<tr>
+    <td>チェックイン:</td><td>{{ hotel.time }}</td>
+</tr>
+</table>
+<a href="/registration">
+<button type="button">登録</button>
+</body>
+</html>
