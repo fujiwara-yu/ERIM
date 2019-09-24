@@ -5,9 +5,8 @@
     <title>test page</title>
 </head>
 <body>
-<h1>Hi {{ name }}</h1>
-{% for s in items %}
-  <li>{{ s }}</li>
-{% endfor %}
+<h2>イベントに関連する情報を登録できます(イベント，交通機関，ホテル)</h2>
+<a href="/list">一覧確認</a><br>
+<a href="/registration">登録</a>
 </body>
 </html>
