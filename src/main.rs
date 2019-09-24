@@ -79,23 +79,19 @@ fn read_db(filename: &str) -> Event {
     serde_json::from_str(&data).unwrap()
 }
 
-// -------------作成中------------------
-// -------------ここから------------------
 //db以下にファイルを作成(data1, data2...)しており，最終番号を取得する．
+// 引数　: 無し
+// 返り値: i32型
 fn get_tail_id() -> i32 {
     // db以下のファイル名を取得
     let paths = fs::read_dir("db/").unwrap();
-    let mut id: String;
+    let mut id_list  = Vec::new();
     for path in paths {
-        id = path.unwrap().path().display().to_string();
+        id_list.push(path.unwrap().path().display().to_string());
     }
-    1
-}
-// -------------ここまで-----------------
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+    let filename = id_list.last().unwrap();
+    let id: i32 = filename.chars().nth(7).unwrap() as i32 - '0' as i32;
+    id
 }
 
 #[get("/list")]
@@ -174,6 +170,15 @@ fn store(form_event: Form<FormEvent>) -> Flash<Redirect> {
 
     Flash::success(Redirect::to("/registration_complete"), "OK")
 }
+
+#[get("/index")]
+fn index() -> Template {
+    let context = TemplateContext {
+        name: "a".to_string(),
+    };
+    Template::render("index", &context)
+}
+
 // サンプルコード
 // ----------ここから---------------
 #[derive(Serialize)]
