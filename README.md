@@ -1,4 +1,4 @@
-#　イベント関連情報管理 (Event Related Information Manager)
+# イベント関連情報管理システム (Event Related Information Manager)
 
 ## はじめに
 イベント(ライブ，フェス等)に行く際，開催地が遠い場合，交通機関とホテルを予約することがある．
