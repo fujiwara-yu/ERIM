@@ -79,6 +79,19 @@ fn read_db(filename: &str) -> Event {
     serde_json::from_str(&data).unwrap()
 }
 
+//db以下のファイル一覧を取得する．
+// 引数　: 無し
+// 返り値: String型の配列
+fn get_files() -> Vec<String> {
+    // db以下のファイル名を取得
+    let paths = fs::read_dir("db/").unwrap();
+    let mut files = Vec::new();
+    for path in paths {
+        files.push(path.unwrap().path().display().to_string());
+    }
+    files
+}
+
 //db以下にファイルを作成(data1, data2...)しており，最終番号を取得する．
 // 引数　: 無し
 // 返り値: i32型
@@ -94,14 +107,24 @@ fn get_tail_id() -> i32 {
     id
 }
 
+#[derive(Serialize)]
+struct Events {
+    event_list: Vec<Event>
+}
+
 #[get("/list")]
 fn get_list() -> Template {
     // jsonを読み込んでイベント一覧の表示
-    let id = get_tail_id();
-    let filename = "db/data".to_string() + &id.to_string() + ".json";
-    let event: Event = read_db(&filename);
+    let files = get_files();
+    let mut event_list = Vec::new();
+    for file in files {
+        event_list.push(read_db(&file));
+    }
+    let events: Events = Events {
+        event_list: event_list
+    };
 
-    Template::render("list", &event)
+    Template::render("list", &events)
 }
 
 #[get("/registration")]
@@ -141,7 +164,7 @@ struct FormEvent {
 fn store(form_event: Form<FormEvent>) -> Flash<Redirect> {
     let event = form_event.into_inner();
     // json形式で保存
-    let id: i32 = get_tail_id();
+    let id: i32 = get_tail_id() + 1;
     let write_json = json!({
     "id": id,
     "name": event.name,

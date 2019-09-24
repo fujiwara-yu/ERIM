@@ -5,59 +5,61 @@
     <title>test page</title>
 </head>
 <body>
+{% for event in event_list %}
 <table>
 イベント
 <tr>
-    <td>イベント名:</td><td>{{ name }}</td>
+    <td>イベント名:</td><td>{{ event.name }}</td>
 </tr>
 <tr>
-    <td>開催場所:</td><td>{{ place }}</td>
+    <td>開催場所:</td><td>{{ event.place }}</td>
 </tr>
 <tr>
-    <td>開催日:</td><td>{{ time }}</td>
+    <td>開催日:</td><td>{{ event.time }}</td>
 </tr>
 </table>
 <br>
 <table>
 交通機関(行き)
 <tr>
-    <td>種類:</td><td>{{ transportation_go.tr_type }}</td>
+    <td>種類:</td><td>{{ event.transportation_go.tr_type }}</td>
 </tr>
 <tr>
-    <td>出発地点:</td><td>{{ transportation_go.begin_place }}</td>
+    <td>出発地点:</td><td>{{ event.transportation_go.begin_place }}</td>
 </tr>
 <tr>
-    <td>到着地点:</td><td>{{ transportation_go.end_place }}</td>
+    <td>到着地点:</td><td>{{ event.transportation_go.end_place }}</td>
 </tr>
 <tr>
-    <td>出発時間:</td><td>{{ transportation_go.time }}</td>
+    <td>出発時間:</td><td>{{ event.transportation_go.time }}</td>
 </tr>
 </table>
 <br>
 <table>
 交通機関(帰り)
 <tr>
-    <td>種類:</td><td>{{ transportation_back.tr_type }}</td>
+    <td>種類:</td><td>{{ event.transportation_back.tr_type }}</td>
 </tr>
 <tr>
-    <td>出発地点:</td><td>{{ transportation_back.begin_place }}</td>
+    <td>出発地点:</td><td>{{ event.transportation_back.begin_place }}</td>
 </tr>
 <tr>
-    <td>到着地点:</td><td>{{ transportation_back.end_place }}</td>
+    <td>到着地点:</td><td>{{ event.transportation_back.end_place }}</td>
 </tr>
 <tr>
-    <td>出発時間:</td><td>{{ transportation_back.time }}</td>
+    <td>出発時間:</td><td>{{ event.transportation_back.time }}</td>
 </tr>
 </table>
 <br>
 <table>
 ホテル
 <tr>
-    <td>場所:</td><td>{{ hotel.place }}</td>
+    <td>場所:</td><td>{{ event.hotel.place }}</td>
 <tr>
-    <td>チェックイン:</td><td>{{ hotel.time }}</td>
+    <td>チェックイン:</td><td>{{ event.hotel.time }}</td>
 </tr>
 </table>
+{% endfor %}
 <a href="/index">
 <button type="button">戻る</button>
 </body>
