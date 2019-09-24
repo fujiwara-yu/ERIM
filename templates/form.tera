@@ -20,24 +20,46 @@
 </table>
 <br>
 <table>
-交通機関
+交通機関(行き)
 <tr>
     <td>種類:</td>
     <td>
-        <input type="radio" name="tr_type" value="train" />新幹線
-        <input type="radio" name="tr_type" value="bus" />バス
-        <input type="radio" name="tr_type" value="plane" />飛行機
+        <input type="radio" name="tr_type_go" value="新幹線" />新幹線
+        <input type="radio" name="tr_type_go" value="バス" />バス
+        <input type="radio" name="tr_type_go" value="飛行機" />飛行機
     </td>
 </tr>
 <tr>
-    <td>出発地点:</td><td><input type="text" name="begin_place" /></td>
+    <td>出発地点:</td><td><input type="text" name="begin_place_go" /></td>
 </tr>
 <tr>
-    <td>到着地点:</td><td><input type="text" name="end_place" /></td>
+    <td>到着地点:</td><td><input type="text" name="end_place_go" /></td>
 </tr>
 <tr>
-    <td>出発時間:</td><td><input type="time" name="begin_time" /></td>
+    <td>出発時間:</td><td><input type="time" name="time_go" /></td>
 </tr>
+</table>
+<br>
+<table>
+交通機関(帰り)
+<tr>
+    <td>種類:</td>
+    <td>
+        <input type="radio" name="tr_type_back" value="新幹線" />新幹線
+        <input type="radio" name="tr_type_back" value="バス" />バス
+        <input type="radio" name="tr_type_back" value="飛行機" />飛行機
+    </td>
+</tr>
+<tr>
+    <td>出発地点:</td><td><input type="text" name="begin_place_back" /></td>
+</tr>
+<tr>
+    <td>到着地点:</td><td><input type="text" name="end_place_back" /></td>
+</tr>
+<tr>
+    <td>出発時間:</td><td><input type="time" name="time_back" /></td>
+</tr>
+
 </table>
 <br>
 <table>

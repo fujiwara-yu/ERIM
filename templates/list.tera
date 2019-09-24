@@ -19,18 +19,34 @@
 </table>
 <br>
 <table>
-交通機関
+交通機関(行き)
 <tr>
-    <td>種類:</td><td>{{ transportation.tr_type }}</td>
+    <td>種類:</td><td>{{ transportation_go.tr_type }}</td>
 </tr>
 <tr>
-    <td>出発地点:</td><td>{{ transportation.begin_place }}</td>
+    <td>出発地点:</td><td>{{ transportation_go.begin_place }}</td>
 </tr>
 <tr>
-    <td>到着地点:</td><td>{{ transportation.end_place }}</td>
+    <td>到着地点:</td><td>{{ transportation_go.end_place }}</td>
 </tr>
 <tr>
-    <td>出発時間:</td><td>{{ transportation.time }}</td>
+    <td>出発時間:</td><td>{{ transportation_go.time }}</td>
+</tr>
+</table>
+<br>
+<table>
+交通機関(帰り)
+<tr>
+    <td>種類:</td><td>{{ transportation_back.tr_type }}</td>
+</tr>
+<tr>
+    <td>出発地点:</td><td>{{ transportation_back.begin_place }}</td>
+</tr>
+<tr>
+    <td>到着地点:</td><td>{{ transportation_back.end_place }}</td>
+</tr>
+<tr>
+    <td>出発時間:</td><td>{{ transportation_back.time }}</td>
 </tr>
 </table>
 <br>
