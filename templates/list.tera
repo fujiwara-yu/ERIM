@@ -58,7 +58,7 @@
     <td>チェックイン:</td><td>{{ hotel.time }}</td>
 </tr>
 </table>
-<a href="/registration">
-<button type="button">登録</button>
+<a href="/index">
+<button type="button">戻る</button>
 </body>
 </html>
